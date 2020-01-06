@@ -3,6 +3,8 @@ package sample;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -42,8 +44,8 @@ public class DB {
      */
     static {
         Properties props = new Properties();
-        String fileName = "C:\\Users\\Robert\\IdeaProjects\\DBTest\\src\\db.properties";
-        InputStream input;
+        Path dbPropertiesPath = Paths.get("db.properties");
+        String fileName = dbPropertiesPath.toString();        InputStream input;
         try{
             input = new FileInputStream(fileName);
             props.load(input);
