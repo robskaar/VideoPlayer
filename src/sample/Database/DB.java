@@ -45,7 +45,8 @@ public class DB {
     static {
         Properties props = new Properties();
         Path dbPropertiesPath = Paths.get("db.properties");
-        String fileName = dbPropertiesPath.toString();        InputStream input;
+        String fileName = dbPropertiesPath.toString();
+        InputStream input;
         try{
             input = new FileInputStream(fileName);
             props.load(input);
