@@ -4,6 +4,10 @@
 # Log file
 *.log
 
+# DB Class file
+
+*.properties
+
 # BlueJ files
 *.ctxt
 
