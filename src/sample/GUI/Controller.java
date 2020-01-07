@@ -12,7 +12,7 @@ public class Controller implements Initializable {
 
     @FXML private MediaView mediaV;
 
-    @FXML private Button play;
+    @FXML private Button playPause;
     @FXML private Button mute;
 
     private MediaPlayer mp;
@@ -29,7 +29,7 @@ public class Controller implements Initializable {
      */
     public void initialize(URL location, ResourceBundle resources) {
         // Build the path to the location of the media file
-        String path = new File("src\\sample\\Black Mirror - Crocodile _ Official Trailer _ Netflix.mp4").getAbsolutePath();
+        String path = new File("src/sample/Media/Black Mirror - Crocodile _ Official Trailer _ Netflix.mp4").getAbsolutePath();
 
         System.out.println(path);
         // Create new Media object (the actual media content)
@@ -54,28 +54,15 @@ public class Controller implements Initializable {
         if(!playing){
             mp.play();
             playing = true;
-            play.setText("Pause");
+            playPause.setText("Pause");
         }
         else{
             mp.pause();
             playing = false;
-            play.setText("Play");
+            playPause.setText("Play");
         }
 
     }
 
-    @FXML
-
-    private void muteButton(){
-
-        if(mp.isMute()){
-            mp.setMute(false);
-            mute.setText("Mute");
-        }
-        else{
-            mp.setMute(true);
-            mute.setText("Unmute");
-        }
-    }
 
 }
