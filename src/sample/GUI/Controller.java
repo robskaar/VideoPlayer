@@ -1,5 +1,6 @@
 package sample.GUI;
 
+import javafx.scene.control.ToolBar;
 import javafx.scene.media.*;
 import javafx.scene.control.Button;
 import javafx.fxml.FXML;
@@ -14,6 +15,8 @@ public class Controller implements Initializable {
 
     @FXML private Button playPause;
     @FXML private Button mute;
+
+    @FXML private ToolBar playBar;
 
     private MediaPlayer mp;
     private Media me;
@@ -42,6 +45,8 @@ public class Controller implements Initializable {
         // If autoplay is turned of the method play(), stop(), pause() etc controls how/when medias are played
         mp.setAutoPlay(false);
 
+        playBar.setVisible(false);    // Playbar initially not visible. Visible on mouse enter
+
     }
 
     @FXML
@@ -54,15 +59,29 @@ public class Controller implements Initializable {
         if(!playing){
             mp.play();
             playing = true;
-            playPause.setText("Pause");
+            playPause.setText("||");
         }
         else{
             mp.pause();
             playing = false;
-            playPause.setText("Play");
+            playPause.setText(">");
         }
 
     }
+
+    @FXML
+
+    private void showPlayBar(){
+        playBar.setVisible(true);
+    }
+
+    @FXML
+
+    private void hidePlayBar(){
+        playBar.setVisible(false);
+    }
+
+
 
 
 }
