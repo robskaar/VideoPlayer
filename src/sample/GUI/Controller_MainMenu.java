@@ -158,7 +158,10 @@ public class Controller_MainMenu implements Initializable {
             addVideosToView(DB.getData(), playListVideoPane); // adds videos to pane
         }
     }
-
+    public String getPlayListName(){
+        String currentPlayList = activePlayList.getText();
+        return currentPlayList;
+    }
     /***
      * checks if there is need for a new playlist button, and adds if necessary
      */
