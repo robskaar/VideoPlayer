@@ -22,6 +22,8 @@ import java.util.ResourceBundle;
 
 public class Controller_MainMenu implements Initializable {
 
+    private static String path = "";
+
     @FXML
     private TextField searchField;
     @FXML
@@ -111,8 +113,12 @@ public class Controller_MainMenu implements Initializable {
         videoInfoPane.getChildren().add(mediaView); //adds mediaview to pane
         tilePane.getChildren().add(videoInfoPane); //adds video infoPane to tile pane
     }
-    public String getMoviePath(MediaView mediaView){
-        return mediaView.getId();
+    static public String getPath(){
+        return path;
+    }
+
+    static void getMoviePath(MediaView mediaView){
+        path = mediaView.getId();
     }
 
     /***
