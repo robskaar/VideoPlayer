@@ -23,7 +23,9 @@
          <children>
 
              <fx:include source="mainMenu.fxml"/>
-             <fx:include source="player.fxml"/>
+
+
+
          </children></StackPane>
     </children>
 </AnchorPane>

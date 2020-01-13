@@ -1,12 +1,16 @@
 package sample.GUI;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.media.Media;
@@ -14,8 +18,12 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import sample.Database.DB;
+import sample.Main;
+
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -23,6 +31,7 @@ import java.util.ResourceBundle;
 public class Controller_MainMenu implements Initializable {
 
     private static String path = "";
+    private static String playlistName = "";
 
     @FXML
     private TextField searchField;
@@ -38,6 +47,8 @@ public class Controller_MainMenu implements Initializable {
     private TilePane playListVideoPane;
     @FXML
     private ScrollPane showToViewPlayListVideos;
+    @FXML
+    private AnchorPane mainMenuPane;
 
 
     /***
@@ -102,7 +113,9 @@ public class Controller_MainMenu implements Initializable {
             videoInfo.toBack();
         });
         videoInfo.setOnMouseClicked(event -> {
-            getMoviePath(mediaView);
+            getMoviePath(mediaView);            // Gets path of clicked video
+            setPlaylistName();
+            changeScene("player.fxml");    // Changes scene to the player
         });
 
 
@@ -173,9 +186,13 @@ public class Controller_MainMenu implements Initializable {
             addVideosToView(DB.getData(), playListVideoPane); // adds videos to pane
         }
     }
-    public String getPlayListName(){
-        String currentPlayList = activePlayList.getText();
-        return currentPlayList;
+
+    public void setPlaylistName(){
+        playlistName = activePlayList.getText();
+    }
+
+    static public String getPlayListName(){
+        return playlistName;
     }
     /***
      * checks if there is need for a new playlist button, and adds if necessary
@@ -212,5 +229,24 @@ public class Controller_MainMenu implements Initializable {
 
         }
     }
+
+    /**
+     * This method changes the scene
+     * @param path   Input the name of the fxml file you want to change to
+     */
+    public void changeScene(String path){
+
+        try {
+            Parent mainMenuParent = FXMLLoader.load(getClass().getResource(path));
+            Scene mainScene = new Scene(mainMenuParent);
+            Stage window = (Stage) mainMenuPane.getScene().getWindow();
+            window.setScene(mainScene);
+            window.setFullScreen(true);
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
