@@ -3,27 +3,36 @@ package sample.GUI;
 import javafx.animation.FadeTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.*;
 import javafx.scene.control.Button;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+import sample.Database.DB;
+
+import java.awt.event.ActionEvent;
 import java.io.*;
 import java.net.*;
 import java.util.ResourceBundle;
 
 public class playerController implements Initializable {
 
+    @FXML private AnchorPane playerMainAnchor;
     @FXML private MediaView mediaV;
-    @FXML private Button test;
     @FXML private VBox settings;
     @FXML private ToolBar playBar;
     @FXML private Slider volumeSlider;
@@ -44,7 +53,8 @@ public class playerController implements Initializable {
     private final double PLAYBAR_FADE_OPACITY = 0.6;            // Opacity goal of objects that get faded in
     private final int PLAYBAR_FADE_IN = 200;                    // Time to fade in objects
     private final int PLAYBAR_FADE_OUT = 1000;                  // Time to fade out objects
-
+    private String videoPath;
+    private boolean moreVideosPending = false;
 
     public playerController(){
     }
@@ -57,30 +67,9 @@ public class playerController implements Initializable {
      */
     public void initialize(URL location, ResourceBundle resources) {
 
-        // Build the path to the location of the media file
+        videoPath = Controller_MainMenu.getPath();    // Get path from video that was clicked
 
-        String path = new File("src/sample/Media/Black_Mirror-Crocodile_Official_Trailer_Netflix.mp4").getAbsolutePath();
-        // Create new Media object
-        me = new Media(new File(path).toURI().toString());
-        // Create new MediaPlayer and attach the media to be played
-        mp = new MediaPlayer(me);
-
-        mediaV.setMediaPlayer(mp);
-
-        mp.setAutoPlay(false);
-
-        mp.setOnEndOfMedia(()->{
-            // If more videos play
-            // Else return to main menu
-        });
-
-        volumeSlider.setValue(50);        // Default volume 50%
-        playbackSpeedSlider.setValue(1);  // Default speed normal
-
-        volumeSliderListener();      // Start video slider listener
-        videoStatusListener();
-        timeListener();              // Start time listener
-        playbackSliderListener();
+        mediaPicker(videoPath);
 
     }
 
@@ -90,9 +79,6 @@ public class playerController implements Initializable {
      */
     @FXML
     private void handlePlay() {
-        // Play the mediaPlayer with the attached media
-
-        videoProgressSlider.setMax(mp.getTotalDuration().toSeconds());   // Set slider length to video length
 
         if(mp.getStatus() != MediaPlayer.Status.PLAYING){
             mp.play();
@@ -145,7 +131,8 @@ public class playerController implements Initializable {
      */
     @FXML
     public void handleMainMenuButton(){
-        System.out.println("Returned to main menu");
+
+        changeScene("mainMenu.fxml");
     }
 
     /**
@@ -162,8 +149,6 @@ public class playerController implements Initializable {
      */
     private void mediaPicker(String path){
 
-        mp.stop();  // Stop previous video
-
         // Build the path to the location of the media file
         String videoPath = new File(path).getAbsolutePath();
 
@@ -176,18 +161,22 @@ public class playerController implements Initializable {
 
         mp.setAutoPlay(true);
 
+        mp.setOnEndOfMedia(() ->{
+
+            // Check for more videos, and play if there is more
+            checkForMoreVideosInPlaylist();
+
+            // If no more videos in playlist, return to main menu
+            if(!moreVideosPending){
+                changeScene("mainMenu.fxml");
+            }
+
+        });
+
         timeListener();
         videoStatusListener();
         volumeSliderListener();      // Start video slider listener
         playbackSliderListener();
-    }
-
-    /**
-     * This method is an example of a thumbnail for a video.
-     */
-    @FXML
-    private void newVideoButton(){
-        mediaPicker("src/sample/Media/DHL - Antarctica.mp4");
     }
 
     /**
@@ -235,12 +224,13 @@ public class playerController implements Initializable {
      */
     public void timeListener(){
 
-        // Listening when a video is playing
-
         mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
             @Override
             public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
 
+                if((int)mp.getCurrentTime().toSeconds() < 2){
+                    videoProgressSlider.setMax(mp.getTotalDuration().toSeconds());   // Set slider length to video length
+                }
                 // Updates video slider to current time stamp
                 videoProgressSlider.setValue(mp.getCurrentTime().toSeconds());
 
@@ -252,9 +242,6 @@ public class playerController implements Initializable {
                         mp.getTotalDuration().toSeconds() % 60));
             }
         });
-
-
-
 
     }
 
@@ -377,6 +364,53 @@ public class playerController implements Initializable {
     }
     public String getpath(){
        return Controller_MainMenu.getPath();
+    }
+
+    public void changeScene(String path){
+
+        mp.stop();  // Stop video if playing
+
+        try {
+            Parent mainMenuParent = FXMLLoader.load(getClass().getResource(path));
+            Scene mainScene = new Scene(mainMenuParent);
+            Stage window = (Stage) playerMainAnchor.getScene().getWindow();
+            window.setScene(mainScene);
+            window.setFullScreen(true);
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void checkForMoreVideosInPlaylist(){
+
+        // Get current playlist name
+        String currentPlaylist = Controller_MainMenu.getPlayListName();
+
+        // Get number of the current video from database
+        DB.selectSQL("SELECT fldAutoNumb FROM tblVideoPlaylists WHERE fldFilePath = '" + videoPath + "' AND fldPlayListName = '"+currentPlaylist+"'");
+        int videoNum = Integer.parseInt(DB.getData());
+
+        // Get the number of the next video from same playlist
+        DB.selectSQL("SELECT fldAutoNumb FROM tblVideoPlaylists WHERE fldAutoNumb > "+videoNum+" AND fldPlayListName = '"+currentPlaylist+"' ");
+        String nextVideoNumber = DB.getData();
+
+        if(nextVideoNumber.equals("|ND|")){
+            moreVideosPending = false;
+        }
+        else{
+            moreVideosPending = true;
+            int nextNumber = Integer.parseInt(nextVideoNumber);
+
+            //Get the path of the next video
+            DB.selectSQL("SELECT fldFilePath FROM tblVideoPlaylists WHERE fldAutoNumb = " + nextNumber +"");
+            videoPath = DB.getData();
+
+            //Play the next video
+            mediaPicker(videoPath);
+
+        }
+
     }
 }
 
