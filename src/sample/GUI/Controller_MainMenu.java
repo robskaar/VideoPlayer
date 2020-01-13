@@ -92,18 +92,27 @@ public class Controller_MainMenu implements Initializable {
         MediaView mediaView = new MediaView(video); // creates mediaview from mediaPlayer
         mediaView.setFitWidth(200);
         mediaView.setFitHeight(200);
+        mediaView.setId(filepath);
         mediaView.setOnMouseEntered(event -> {
             videoInfo.toFront();
         });
         videoInfo.setOnMouseExited(event -> {
             videoInfo.toBack();
         });
+        videoInfo.setOnMouseClicked(event -> {
+            getMoviePath(mediaView);
+        });
+
+
         mediaView.setId(filepath); // sets id to filepath to be used to play videos
         mediaView.setCursor(Cursor.OPEN_HAND); // sets cursor on hover
         Pane videoInfoPane = new Pane(); // info pane created to host mediaview and video info
         videoInfoPane.getChildren().add(videoInfo); //adds video info to pane
         videoInfoPane.getChildren().add(mediaView); //adds mediaview to pane
         tilePane.getChildren().add(videoInfoPane); //adds video infoPane to tile pane
+    }
+    public String getMoviePath(MediaView mediaView){
+        return mediaView.getId();
     }
 
     /***
@@ -197,7 +206,5 @@ public class Controller_MainMenu implements Initializable {
 
         }
     }
-
-
 }
 

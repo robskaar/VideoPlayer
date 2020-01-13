@@ -21,7 +21,9 @@
     <children>
         <StackPane prefHeight="1080.0" prefWidth="1920.0">
          <children>
+
              <fx:include source="mainMenu.fxml"/>
+             <fx:include source="player.fxml"/>
          </children></StackPane>
     </children>
 </AnchorPane>

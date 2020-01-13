@@ -59,7 +59,7 @@ public class playerController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         // Build the path to the location of the media file
-        String path = new File("src/sample/Media/Black Mirror - Crocodile _ Official Trailer _ Netflix.mp4").getAbsolutePath();
+        String path = new File("src/sample/Media/Black_Mirror-Crocodile_Official_Trailer_Netflix.mp4").getAbsolutePath();
         // Create new Media object
         me = new Media(new File(path).toURI().toString());
         // Create new MediaPlayer and attach the media to be played
