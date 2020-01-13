@@ -1,0 +1,13 @@
+package sample.GUI;
+
+import com.sun.xml.internal.bind.v2.runtime.output.StAXExStreamWriterOutput;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.layout.AnchorPane;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class Controller_Default {
+
+}

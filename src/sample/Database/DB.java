@@ -34,7 +34,7 @@ public class DB {
      * STATES
      */
     private static boolean moreData=false;  // from Resultset
-    private static boolean pendingData=false; // from select statement
+    public static boolean pendingData=false; // from select statement
     private static boolean terminated = false;
     
     private DB(){    
