@@ -37,7 +37,6 @@ public class playerController implements Initializable {
     @FXML private ImageView settingsButton;
     @FXML private Label timeViewer;
 
-
     private MediaPlayer mp;
     private Media me;
 
