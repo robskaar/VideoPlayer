@@ -5,13 +5,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import sample.Database.DB;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("GUI/sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("GUI/player.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setFullScreen(true);
         primaryStage.setScene(new Scene(root, 1920, 1080));
