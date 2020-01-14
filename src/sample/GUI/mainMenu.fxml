@@ -18,7 +18,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="mainMenuPane" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GUI.Controller_MainMenu">
+<AnchorPane fx:id="mainMenuPane" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: white;"
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="sample.GUI.Controller_MainMenu">
     <children>
       <ScrollPane fx:id="showToViewPlayListVideos" layoutX="214.0" prefHeight="962.0" prefWidth="1706.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="204.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="118.0">
          <content>
@@ -34,7 +36,8 @@
                               <Insets left="20.0" top="10.0" />
                            </HBox.margin>
                         </Text>
-                        <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="186.0" style="-fx-background-color: lightgrey;" text="Configure Playlist">
+                         <Button mnemonicParsing="false" onAction="#playlistConfigure" prefHeight="26.0"
+                                 prefWidth="186.0" style="-fx-background-color: lightgrey;" text="Configure Playlist">
                            <cursor>
                               <Cursor fx:constant="OPEN_HAND" />
                            </cursor>

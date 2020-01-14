@@ -351,5 +351,10 @@ public class Controller_MainMenu implements Initializable {
         }
     }
 
+    public void playlistConfigure() {
+        setPlaylistName();
+        changeScene("configurePlaylist.fxml");
+    }
+
 }
 
