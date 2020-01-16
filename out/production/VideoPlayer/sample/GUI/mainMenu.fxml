@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="mainMenuPane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GUI.Controller_MainMenu">
+    <children>
+      <ScrollPane fx:id="showToViewPlayListVideos" layoutX="214.0" prefHeight="962.0" prefWidth="1706.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="204.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="118.0">
+         <content>
+            <Pane prefHeight="958.0" prefWidth="1698.0">
+               <children>
+                  <HBox alignment="TOP_RIGHT" prefHeight="49.0" prefWidth="1726.0">
+                     <children>
+                        <Text fx:id="activePlayList" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="1533.3368163108826">
+                           <font>
+                              <Font size="27.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="20.0" top="10.0" />
+                           </HBox.margin>
+                        </Text>
+                         <Button id="configurePlaylistButton" mnemonicParsing="false" onAction="#playlistConfigure" prefHeight="26.0" prefWidth="186.0" text="Configure Playlist">
+                           <cursor>
+                              <Cursor fx:constant="OPEN_HAND" />
+                           </cursor>
+                           <effect>
+                              <Glow level="0.11" />
+                           </effect></Button>
+                     </children>
+                  </HBox>
+                  <TilePane fx:id="playListVideoPane" hgap="30.0" layoutY="41.0" prefColumns="1" prefHeight="917.0" prefRows="2" prefWidth="1698.0" vgap="30.0">
+                     <padding>
+                        <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+                     </padding>
+                  </TilePane>
+               </children>
+            </Pane>
+         </content>
+      </ScrollPane>
+        <ScrollPane fx:id="videosOverviewPane" layoutX="212.0" prefHeight="962.0" prefWidth="1708.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="204.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="118.0">
+            <content>
+                <TilePane fx:id="videoPane" cache="true" hgap="30.0" prefHeight="958.0" prefWidth="1698.0" vgap="30.0">
+               <padding>
+                  <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+               </padding>
+               <children>
+                  <Text fx:id="noSearchMatch" strokeType="OUTSIDE" strokeWidth="0.0" text="Sorry, we currently don't have matching content for your search, please search for something else" visible="false" wrappingWidth="873.3366889953613">
+                     <TilePane.margin>
+                        <Insets left="380.0" top="50.0" />
+                     </TilePane.margin>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="OPEN_HAND" />
+                     </cursor>
+                  </Text>
+               </children></TilePane>
+            </content>
+        </ScrollPane>
+        <AnchorPane layoutX="14.0" prefHeight="120.0" prefWidth="1908.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+            <HBox layoutX="366.0" layoutY="61.0" prefHeight="38.0" prefWidth="1318.0">
+               <children>
+                    <TextField fx:id="searchField" onAction="#searchDB" prefHeight="34.0" prefWidth="1258.0" style="-fx-text-fill: linear-gradient(to right,grey,#76b8b0);" />
+                  <Button fx:id="SearchButton" mnemonicParsing="false" onAction="#searchDB" prefHeight="34.0" prefWidth="73.0" style="-fx-background-color: transparent;" styleClass="button-searchButton" stylesheets="@../resources/searchButton.css">
+                     <cursor>
+                        <Cursor fx:constant="OPEN_HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </HBox>
+            <MenuButton layoutY="14.0" mnemonicParsing="false" popupSide="RIGHT" prefHeight="46.0" prefWidth="61.0" style="-fx-mark-color: transparent; -fx-background-color: transparent;" styleClass="button-settingsButton" stylesheets="@../resources/settingsButton.css">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Configure Account" />
+                <MenuItem mnemonicParsing="false" text="Configure Console" />
+                  <Menu mnemonicParsing="false" text="Themes">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#darkMode" text="Dark mode" />
+                        <MenuItem mnemonicParsing="false" onAction="#lightMode" text="Light Mode" />
+                    </items>
+                  </Menu>
+              </items>
+            </MenuButton>
+            </children></AnchorPane>
+        <ScrollPane layoutX="-2.0" layoutY="118.0" prefHeight="962.0" prefWidth="210.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1713.6" AnchorPane.topAnchor="118.0">
+         <content>
+            <VBox maxWidth="-Infinity" prefHeight="959.0" prefWidth="201.0">
+               <children>
+                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Playlists" textAlignment="CENTER" wrappingWidth="200.0">
+                          <font>
+                              <Font size="20.0" />
+                          </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+                      <TilePane fx:id="playListPane" hgap="20.0" prefHeight="902.0" prefWidth="201.0" tileAlignment="TOP_LEFT" vgap="20.0">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding></TilePane>
+               </children>
+            </VBox>
+         </content>
+        </ScrollPane>
+    </children>
+</AnchorPane>
