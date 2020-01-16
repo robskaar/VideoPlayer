@@ -8,9 +8,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
@@ -21,44 +19,34 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sample.Database.DB;
+import sample.Main;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class playListController implements Initializable {
+public class playListController extends Main implements Initializable {
 
     @FXML
     private AnchorPane configureMenu;
-
-
     @FXML
     private ScrollPane showToViewPlayListVideos;
-
-    @FXML
-    private Pane videotilePane;
-
-    @FXML
-    private Text activePlayList;
-
     @FXML
     private TilePane playListVideoPane;
-
-    @FXML
-    private ScrollPane videosOverviewPane;
-
     @FXML
     private TilePane videoPane;
-
     @FXML
     private Text noSearchMatch;
-
     @FXML
     private TextField searchField;
-
     @FXML
     private Button SearchButton;
+    @FXML
+    private Button themechanger;
+
+    public playListController() {
+    }
 
     @FXML
     void searchDB(ActionEvent event) {
@@ -70,8 +58,11 @@ public class playListController implements Initializable {
 
     }
 
-    String currentPlaylist = Controller_MainMenu.getPlayListName();
-    private Controller_MainMenu controller_mainMenu;
+    private String currentPlaylist = Controller_MainMenu.getPlayListName();
+    private String stylesheet = Controller_MainMenu.getStylesheet();
+    private final String DARK_MODE = "sample/GUI/resources/Darkmode.css";
+    private final String LIGHT_MODE = "sample/GUI/resources/basic.css";
+    
 
     /***
      * this method is used to initialize the main menu pane with playlists shown
@@ -87,7 +78,7 @@ public class playListController implements Initializable {
     /***
      * does the searches for video's, and calls method to add them to pane
      */
-    public void searchDB1() {
+    public void searchDbOnConfigureStage() {
         System.out.println("DEBUGGING HITS DB");
         clearPane(videoPane); // clears videoPane from previous search
         showToViewPlayListVideos.toBack(); // hides play list video's if in front
@@ -206,9 +197,6 @@ public class playListController implements Initializable {
         DB.pendingData = false;
         DB.insertSQL("INSERT INTO tblVideoPlaylists \n" +
                 "VALUES ('" + currentPlaylist + "','" + path + "');");
-        for (Node child : videosOverviewPane.getChildrenUnmodifiable()) {
-            videosOverviewPane.getChildrenUnmodifiable().removeIf(node -> (child.getId() == path));
-        }
     }
 
 
@@ -226,23 +214,44 @@ public class playListController implements Initializable {
             window.setScene(mainScene);
             window.setFullScreen(true);
             window.show();
+            mainScene.getStylesheets().add(stylesheet);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /***
+     *Goes to the Menu, is public for the application to use it
+     */
     public void goToMainMenu() {
         changeScene("mainMenu.fxml");
     }
 
+    /***
+     * deletes a playerlist from the Database, and returns to the mainMenu
+     */
     public void deletePlaylist() {
         DB.pendingData = false;
         DB.deleteSQL("DELETE FROM tblPlayList WHERE fldPlayListName = '" + currentPlaylist + "'");
         goToMainMenu();
     }
 
-    public void playlistVideoPaneListener() {
+    /***
+     * sets darkmode by removing previous sheet and applying a new one
+     */
+    public void setDarkMode() {
+        setTheme(DARK_MODE);
+    }
 
+    private void setTheme(String theme) {
+        configureMenu.getScene().getStylesheets().remove(stylesheet);
+        stylesheet = theme;
+        configureMenu.getScene().getStylesheets().add(theme);
+
+    }
+
+    public void setLightMode() {
+        setTheme(LIGHT_MODE);
     }
 
 
