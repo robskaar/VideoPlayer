@@ -35,7 +35,8 @@ import java.util.ResourceBundle;
 public class Controller_MainMenu implements Initializable {
 
     private static String path = "";
-    private static String playlistName = "None";
+    private static String playlistName = "";
+    private static String stylesheet = "sample/GUI/resources/basic.css";
 
     @FXML
     private TextField searchField;
@@ -53,6 +54,7 @@ public class Controller_MainMenu implements Initializable {
     private ScrollPane showToViewPlayListVideos;
     @FXML
     private AnchorPane mainMenuPane;
+
 
 
     /***
@@ -255,6 +257,7 @@ public class Controller_MainMenu implements Initializable {
             window.setScene(mainScene);
             window.setFullScreen(true);
             window.show();
+            mainScene.getStylesheets().add(stylesheet);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -351,5 +354,41 @@ public class Controller_MainMenu implements Initializable {
         }
     }
 
+    public void playlistConfigure() {
+        setPlaylistName();
+        changeScene("configurePlaylist.fxml");
+    }
+
+    /***
+     * Sets the Theme of the Application to dark, by removing the original stylesheet and adding a new one
+     */
+    public void darkMode() {
+        mainMenuPane.getScene().getStylesheets().remove(stylesheet);
+        stylesheet = "sample/GUI/resources/Darkmode.css";
+        setTheme(stylesheet);
+
+    }
+
+    private void setTheme(String theme) {
+        mainMenuPane.getScene().getStylesheets().add(theme);
+
+    }
+
+    /***
+     * Sets the Application to light mode, incase anybody would ever want to do that, by removing the currently used stylesheet and replace it with the light one
+     */
+    public void lightMode() {
+        mainMenuPane.getScene().getStylesheets().remove(stylesheet);
+        stylesheet = "sample/GUI/resources/basic.css";
+        mainMenuPane.getScene().getStylesheets().add(stylesheet);
+    }
+
+    /***
+     * gets the stylesheet.
+     * @return
+     */
+    public static String getStylesheet() {
+        return stylesheet;
+    }
 }
 

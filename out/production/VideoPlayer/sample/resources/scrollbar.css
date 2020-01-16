@@ -1,0 +1,19 @@
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:lightgrey;
+
+}
+.scroll-bar .decrement-arrow {
+    -fx-padding:1;
+}
+.scroll-bar .increment-arrow {
+    -fx-padding:1;
+}
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: linear-gradient(to bottom,slategrey,#76b8b0);
+    -fx-background-radius: 10em;
+}
