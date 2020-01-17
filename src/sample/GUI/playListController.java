@@ -263,7 +263,7 @@ public class playListController extends Main implements Initializable {
     }
     
     private void setInstructionstoAdd() {
-        instructions.setText("Click on the Video to Add it");
+        instructions.setText("Click on the Video to add it");
     }
 
     private void setInstructionstoRemove() {

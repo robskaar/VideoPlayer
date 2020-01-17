@@ -100,9 +100,10 @@
                                 style="-fx-background-color: transparent;" text="Show Playlist"/>
                         <Button mnemonicParsing="false" onAction="#deletePlaylist"
                                 style="-fx-background-color: transparent;" text="Delete Playlist"/>
-                        <Label fx:id="playlistName">
+                        <Label fx:id="playlistName" layoutX="930.0"
+                               style="-fx-font-size: 28; -fx-text-alignment: center;">
                             <HBox.margin>
-                                <Insets left="500.0"/>
+                                <Insets left="650.0"/>
                             </HBox.margin>
                             <font>
                                 <Font name="System Bold" size="27.0"/>
@@ -123,7 +124,7 @@
                         </Button>
                     </children>
                 </HBox>
-                <Label fx:id="instructions" layoutX="80.0" layoutY="72.0" prefHeight="17.0" prefWidth="205.0"
+                <Label fx:id="instructions" layoutX="80.0" layoutY="64.0" prefHeight="25.0" prefWidth="205.0"
                        style="-fx-text-alignment: center;" textAlignment="CENTER"/>
             </children>
         </AnchorPane>
