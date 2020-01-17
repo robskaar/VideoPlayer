@@ -235,6 +235,10 @@ public class playListController extends Main implements Initializable {
         changeScene("mainMenu.fxml");
     }
 
+    public void goToAccount() {
+        changeScene("ConfigureAccount.fxml");
+    }
+
     /***
      * deletes a playerlist from the Database, and returns to the mainMenu
      */
