@@ -77,8 +77,8 @@ public class playerController implements Initializable {
     /**
      * This method is invoked automatically in the beginning. Used for initializing, loading data etc.
      *
-     * @param location
-     * @param resources
+     * @param location - defines location
+     * @param resources - defines resources
      */
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -336,7 +336,7 @@ public class playerController implements Initializable {
      * l = forward 5 sec
      * m = main menu
      *
-     * @param kc
+     * @param kc --keyevent to get code from
      */
     @FXML
     public void handleKeyPressed(KeyEvent kc) {
@@ -381,7 +381,7 @@ public class playerController implements Initializable {
     /**
      * This method changes the scene
      *
-     * @param path
+     * @param path - path to change scene
      */
     public void changeScene(String path) {
 
@@ -441,7 +441,7 @@ public class playerController implements Initializable {
 
     /**
      * This method shows the title of the video on the player
-     * @param path
+     * @param path -- path to show video tile
      */
     public void showVideoTitle(String path){
 

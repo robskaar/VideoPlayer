@@ -1,7 +1,7 @@
 .root {
-    -fx-accent: #e4008e;
+    -fx-accent: #1a6ee4;
     -fx-focus-color: -fx-accent;
-    -fx-base: #ff00dc;
+    -fx-base: #111;
     -fx-control-inner-background: derive(-fx-base, 50%);
     -fx-control-inner-background-alt: derive(-fx-control-inner-background, 30%);
 }
@@ -35,7 +35,7 @@
 
     -fx-accent: #1a6ee4 !important;
     -fx-focus-color: -fx-accent;
-    -fx-base: #3f0039;
+    -fx-base: #111;
     -fx-control-inner-background: derive(-fx-base, 50%);
     -fx-control-inner-background-alt: derive(-fx-control-inner-background, 30%);
 }
