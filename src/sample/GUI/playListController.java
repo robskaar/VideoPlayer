@@ -58,11 +58,16 @@ public class playListController extends Main implements Initializable {
 
     }
 
+    @FXML
+    private Label playlistName;
+    @FXML
+    private Label instructions;
+
     private String currentPlaylist = Controller_MainMenu.getPlayListName();
     private String stylesheet = Controller_MainMenu.getStylesheet();
     private final String DARK_MODE = "sample/GUI/resources/Darkmode.css";
     private final String LIGHT_MODE = "sample/GUI/resources/basic.css";
-    
+
 
     /***
      * this method is used to initialize the main menu pane with playlists shown
@@ -73,6 +78,7 @@ public class playListController extends Main implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         showToViewPlayListVideos.toFront();
         updateVideoPlayList();
+        playlistName.setText(Controller_MainMenu.getPlayListName());
     }
 
     /***
@@ -80,6 +86,7 @@ public class playListController extends Main implements Initializable {
      */
     public void searchDbOnConfigureStage() {
         System.out.println("DEBUGGING HITS DB");
+        setInstructionstoAdd();
         clearPane(videoPane); // clears videoPane from previous search
         showToViewPlayListVideos.toBack(); // hides play list video's if in front
         videoPane.toFront();
@@ -161,6 +168,7 @@ public class playListController extends Main implements Initializable {
     public void updateVideoPlayList() {
         showToViewPlayListVideos.toFront();
         System.out.println(currentPlaylist);
+        setInstructionstoRemove();
         clearPane(playListVideoPane); // clear pane to start of fresh
         String currentPlayList = currentPlaylist; // gets the playlist name
         DB.selectSQL("SELECT COUNT(fldPlayListName) FROM tblVideoPlayLists WHERE fldPlayListName = '" + currentPlayList + "'"); // sql query to count amount of videos
@@ -252,6 +260,14 @@ public class playListController extends Main implements Initializable {
 
     public void setLightMode() {
         setTheme(LIGHT_MODE);
+    }
+    
+    private void setInstructionstoAdd() {
+        instructions.setText("Click on the Video to add it");
+    }
+
+    private void setInstructionstoRemove() {
+        instructions.setText("Click on the Video to remove it");
     }
 
 
