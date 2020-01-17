@@ -24,8 +24,6 @@
 
              <fx:include source="mainMenu.fxml"/>
 
-
-
          </children></StackPane>
     </children>
 </AnchorPane>

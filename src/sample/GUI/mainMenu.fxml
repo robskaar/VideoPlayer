@@ -57,7 +57,7 @@
       </ScrollPane>
         <ScrollPane fx:id="videosOverviewPane" layoutX="212.0" prefHeight="962.0" prefWidth="1708.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="204.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="118.0">
             <content>
-                <TilePane fx:id="videoPane" cache="true" hgap="30.0" onMouseClicked="#addVideo" prefHeight="958.0" prefWidth="1698.0" vgap="30.0">
+                <TilePane fx:id="videoPane" cache="true" hgap="30.0" prefHeight="958.0" prefWidth="1698.0" vgap="30.0">
                <padding>
                   <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
                </padding>
@@ -101,7 +101,7 @@
                             style="-fx-mark-color: transparent; -fx-background-color: transparent;"
                             styleClass="button-settingsButton" stylesheets="@../resources/settingsButton.css">
               <items>
-                <MenuItem mnemonicParsing="false" text="Configure Account" />
+                <MenuItem mnemonicParsing="false" onAction="#goToAccount" text="Configure Account" />
                 <MenuItem mnemonicParsing="false" text="Configure Console" />
                   <Menu mnemonicParsing="false" text="Themes">
                       <items>

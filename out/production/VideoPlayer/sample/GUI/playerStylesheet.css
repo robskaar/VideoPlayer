@@ -33,11 +33,13 @@
 
 .settingsVbox .label{
     -fx-padding: 5 0 10 0;
+
 }
 
 .settingsVbox .slider{
     -fx-padding: 0 0 10 0;
 }
+
 
 
 .images:hover{

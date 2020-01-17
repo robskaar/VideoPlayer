@@ -54,6 +54,8 @@ public class Controller_MainMenu implements Initializable {
     private ScrollPane showToViewPlayListVideos;
     @FXML
     private AnchorPane mainMenuPane;
+    @FXML
+    private Controller_ConfigureAccount controller_configureAccount;
 
 
 
@@ -65,8 +67,9 @@ public class Controller_MainMenu implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         updatePlayListPane(); //updates the list of playlist
-
     }
+
+
 
     /***
      * does the searches for video's, and calls method to add them to pane
@@ -138,7 +141,7 @@ public class Controller_MainMenu implements Initializable {
         return path;
     }
 
-    static void getMoviePath(MediaView mediaView) {
+    private static void getMoviePath(MediaView mediaView) {
         path = mediaView.getId();
     }
 
@@ -241,6 +244,13 @@ public class Controller_MainMenu implements Initializable {
             playListPane.getChildren().add(addPlaylist); // add the playlist button
 
         }
+    }
+
+    /***
+     * changes scene to the account config scene
+     */
+    public void goToAccount(){
+        changeScene("configureAccount.fxml");
     }
 
     /**

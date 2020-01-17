@@ -17,7 +17,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+
 <AnchorPane fx:id="mainMenuPane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GUI.Controller_MainMenu">
+
     <children>
       <ScrollPane fx:id="showToViewPlayListVideos" layoutX="214.0" prefHeight="962.0" prefWidth="1706.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="204.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="118.0">
          <content>
@@ -33,7 +35,10 @@
                               <Insets left="20.0" top="10.0" />
                            </HBox.margin>
                         </Text>
+
+
                          <Button id="configurePlaylistButton" mnemonicParsing="false" onAction="#playlistConfigure" prefHeight="26.0" prefWidth="186.0" text="Configure Playlist">
+
                            <cursor>
                               <Cursor fx:constant="OPEN_HAND" />
                            </cursor>
@@ -72,7 +77,9 @@
                </children></TilePane>
             </content>
         </ScrollPane>
+
         <AnchorPane layoutX="14.0" prefHeight="120.0" prefWidth="1908.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
             <children>
             <HBox layoutX="366.0" layoutY="61.0" prefHeight="38.0" prefWidth="1318.0">
                <children>
@@ -82,6 +89,7 @@
                         <Cursor fx:constant="OPEN_HAND" />
                      </cursor>
                   </Button>
+
                </children>
             </HBox>
             <MenuButton layoutY="14.0" mnemonicParsing="false" popupSide="RIGHT" prefHeight="46.0" prefWidth="61.0" style="-fx-mark-color: transparent; -fx-background-color: transparent;" styleClass="button-settingsButton" stylesheets="@../resources/settingsButton.css">
@@ -100,6 +108,7 @@
         <ScrollPane layoutX="-2.0" layoutY="118.0" prefHeight="962.0" prefWidth="210.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1713.6" AnchorPane.topAnchor="118.0">
          <content>
             <VBox maxWidth="-Infinity" prefHeight="959.0" prefWidth="201.0">
+
                <children>
                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Playlists" textAlignment="CENTER" wrappingWidth="200.0">
                           <font>
@@ -109,7 +118,9 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                   </Text>
+
                       <TilePane fx:id="playListPane" hgap="20.0" prefHeight="902.0" prefWidth="201.0" tileAlignment="TOP_LEFT" vgap="20.0">
+
                      <VBox.margin>
                         <Insets top="20.0" />
                      </VBox.margin>
