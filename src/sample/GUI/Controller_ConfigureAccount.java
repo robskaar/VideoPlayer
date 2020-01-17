@@ -1,7 +1,6 @@
 package sample.GUI;
 
 import javafx.animation.FadeTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,12 +24,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.stream.Stream;
 
 public class Controller_ConfigureAccount {
 
-    String userNameEntered;
-    String passwordEntered;
+    private String userNameEntered;
+    private String passwordEntered;
 
 
     static private boolean loggedIn = false;
@@ -131,7 +129,9 @@ public class Controller_ConfigureAccount {
     @FXML
     private Button confirmedButton;
 
-
+    /***
+     * toggles between register and login vbox on login screen
+     */
     @FXML
     void toggleVBox() {
         if (logInVBox.isVisible()) {
@@ -143,8 +143,11 @@ public class Controller_ConfigureAccount {
         }
     }
 
+    /***
+     * used to create the user and insert gathered + default info into DB, at the end clears the register box
+     */
     @FXML
-    void createUser(ActionEvent event) {
+    void createUser() {
         String name = newName.getText();
         java.sql.Date date = java.sql.Date.valueOf(newDateOfBirth.getValue());
         String gender = "";
@@ -164,17 +167,17 @@ public class Controller_ConfigureAccount {
         String userName = newUserName.getText();
         String password = newPassword.getText();
         User newUser = new User(name, address, zipCode, gender, phoneNumber, emailAddress, "Default File Path", date, userName, password, "Your bio");
-        if (name.equalsIgnoreCase("") || date.equals("") || gender.equalsIgnoreCase("") || address.equalsIgnoreCase("") || zipCode.equalsIgnoreCase("") || phoneNumber.equalsIgnoreCase("") || emailAddress.equalsIgnoreCase("") || userName.equalsIgnoreCase("") || password.equalsIgnoreCase("")) {
+        if (name.equalsIgnoreCase("") || date == null || gender.equalsIgnoreCase("") || address.equalsIgnoreCase("") || zipCode.equalsIgnoreCase("") || phoneNumber.equalsIgnoreCase("") || emailAddress.equalsIgnoreCase("") || userName.equalsIgnoreCase("") || password.equalsIgnoreCase("")) {
             createNewProfileText.setText("no blank fields, please fill all fields");
         } else {
             String pathFemale = "src/sample/Profile_Pictures/user-female.png";
             String pathMale = "src/sample/Profile_Pictures/user-male.png";
             if (gender.equalsIgnoreCase("male")) {
-                DB.pendingData=false;
+                DB.pendingData = false;
                 DB.insertSQL("INSERT INTO tblUserAccount (fldName,fldAddress,fldZipCode,fldUserName,fldPassWord,fldPhoneNumber,fldEmailAddress,fldDefaultFilePath,fldDateOfBirth,fldGender,fldProfileImage,fldBioText) VALUES('" + name + "','" + address + "','" + zipCode + "','" + userName + "','" + newUser.getPassword() + "','" + phoneNumber + "','" + emailAddress + "','" + newUser.getDefaultFileFolder() + "','" + date + "','" + gender + "','" + pathMale + "','" + newUser.getBio() + "')");
 
-            } else if (gender.equalsIgnoreCase("female")) {
-                DB.pendingData=false;
+            } else {
+                DB.pendingData = false;
                 DB.insertSQL("INSERT INTO tblUserAccount (fldName,fldAddress,fldZipCode,fldUserName,fldPassWord,fldPhoneNumber,fldEmailAddress,fldDefaultFilePath,fldDateOfBirth,fldGender,fldProfileImage,fldBioText) VALUES('" + name + "','" + address + "','" + zipCode + "','" + userName + "','" + newUser.getPassword() + "','" + phoneNumber + "','" + emailAddress + "','" + newUser.getDefaultFileFolder() + "','" + date + "','" + gender + "','" + pathFemale + "','" + newUser.getBio() + "')");
             }
         }
@@ -194,9 +197,13 @@ public class Controller_ConfigureAccount {
         newPhoneNumber.clear();
     }
 
-
+    /***
+     * checks if the correct username and password is set - ive added salting to password to store more securly on DB
+     * also updates personal folder movies at login - so when you go back to main menu personal movies from personal folder
+     * is added
+     */
     @FXML
-    void logIn(ActionEvent event) {
+    void logIn() {
         userNameEntered = userName.getText();
         passwordEntered = password.getText();
         DB.selectSQL("select fldPassword from tblUserAccount WHERE fldUserName = '" + userNameEntered + "'");
@@ -217,8 +224,12 @@ public class Controller_ConfigureAccount {
 
     }
 
+    /***
+     * saves changes made in the account settings, and fades a green confirm button to let user know succeeded operation
+     * if a blank field is updated a thick border shows to let user know where to edit
+     */
     @FXML
-    void saveChanges(ActionEvent event) {
+    void saveChanges() {
         String name = nameField.getText();
         String address = addressField.getText();
         String zipCode = zipCodeField.getText();
@@ -266,8 +277,11 @@ public class Controller_ConfigureAccount {
         }
     }
 
+    /***
+     * log out
+     */
     @FXML
-    void logOut(ActionEvent event) {
+    void logOut() {
         loggedIn = false;
         userName.clear();
         password.clear();
@@ -277,7 +291,11 @@ public class Controller_ConfigureAccount {
 
     }
 
-    void getAccountInfo(String username) {
+    /***
+     * gets account info + picture + bio and updates the account pane before visiting it.
+     * @param username - username for the account info to be gathered
+     */
+    private void getAccountInfo(String username) {
         DB.selectSQL("SELECT fldName,fldAddress,fldZipCode,fldPhoneNumber,fldEmailAddress,fldDefaultFilePath,fldDateOfBirth,fldBioText, fldProfileImage FROM tblUserAccount WHERE fldUserName ='" + username + "'");
         for (int i = 1; i < 9 + 1; i++) {
             if (i == 1) nameField.setText(DB.getData());
@@ -301,8 +319,13 @@ public class Controller_ConfigureAccount {
 
     }
 
+    /**
+     * simply sets scene to main menu
+     * also removes unpersonal videos going to main menu, so person A's personal movies from folder dont show when
+     * Person B is logged in
+     */
     public void goToMainMenu() {
-        removePersonalVideos();
+        removeUnpersonalVideos();
         changeScene();
     }
 
@@ -324,9 +347,13 @@ public class Controller_ConfigureAccount {
 
     }
 
+    /***
+     * used to set the default file folder for a user, to have a specific movies folder to load from for more control of content
+     * and adds them to DB by reference of path
+     * @throws IOException
+     */
     @FXML
     void setDefaultFileFolder() throws IOException {
-        String fileName;
         File defaultDirectory;
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Choose Default File Path");
@@ -356,6 +383,10 @@ public class Controller_ConfigureAccount {
         }
     }
 
+    /***
+     * this is called to from login to update personal movies upon revisiting the main menu
+     * @throws IOException
+     */
     public void updateVideosFromPersonalFolder() throws IOException {
 
         DB.selectSQL("SELECT fldDefaultFilePath FROM tblUserAccount WHERE fldUserName = '" + userNameEntered + "'");
@@ -372,8 +403,9 @@ public class Controller_ConfigureAccount {
 
         });
     }
+
     /**
-     * This method makes user chose a file, that will be moved to chosen folder
+     * This method makes user chose a picture, that will be moved to chosen folder - src.sample.Profile_Pictures
      * Also adds the info to the database
      */
     public void setProfileImage() throws IOException {
@@ -419,23 +451,25 @@ public class Controller_ConfigureAccount {
 
     }
 
-
-    public void removePersonalVideos(){
+    /***
+     * removes videos from other logged in users, so person A dont see person B's personal movie folder content
+     */
+    private void removeUnpersonalVideos() {
         ArrayList<String> toBeDeleted = new ArrayList<>();
 
-        DB.selectSQL("SELECT fldDefaultFilePath FROM tblUserAccount WHERE fldUserName ='"+userNameEntered+"'");
+        DB.selectSQL("SELECT fldDefaultFilePath FROM tblUserAccount WHERE fldUserName ='" + userNameEntered + "'");
         String defaultPath = DB.getData();
-        DB.pendingData=false;
-        DB.selectSQL("SELECT COUNT(fldFilePath) FROM tblVideo WHERE fldFilePath NOT LIKE '%src/sample/Media%' AND fldFilePath NOT LIKE '%"+defaultPath+"\\%'");
+        DB.pendingData = false;
+        DB.selectSQL("SELECT COUNT(fldFilePath) FROM tblVideo WHERE fldFilePath NOT LIKE '%src/sample/Media%' AND fldFilePath NOT LIKE '%" + defaultPath + "\\%'");
         int amountOfVideos = Integer.parseInt(DB.getData());
-        DB.pendingData=false;
-        DB.selectSQL("SELECT fldFilePath FROM tblVideo WHERE fldFilePath NOT LIKE '%src/sample/Media%' AND fldFilePath NOT LIKE '%"+defaultPath+"\\%'");
-        for (int i = 0; i < amountOfVideos ; i++) {
+        DB.pendingData = false;
+        DB.selectSQL("SELECT fldFilePath FROM tblVideo WHERE fldFilePath NOT LIKE '%src/sample/Media%' AND fldFilePath NOT LIKE '%" + defaultPath + "\\%'");
+        for (int i = 0; i < amountOfVideos; i++) {
             toBeDeleted.add(DB.getData());
         }
-        for (String path:toBeDeleted) {
-            DB.pendingData=false;
-            DB.deleteSQL("DELETE FROM tblVideo WHERE fldFilePath ='"+path+"'");
+        for (String path : toBeDeleted) {
+            DB.pendingData = false;
+            DB.deleteSQL("DELETE FROM tblVideo WHERE fldFilePath ='" + path + "'");
         }
 
     }

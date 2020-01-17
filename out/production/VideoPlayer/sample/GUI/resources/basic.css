@@ -1,16 +1,18 @@
-#pane{
+#pane {
     -fx-background-color: white;
 }
 
-#playlistPane{
+#playlistPane {
     -fx-background-color: lightgrey;
 }
-#configurePlaylistButton{
+
+#configurePlaylistButton {
     -fx-background-color: lightgrey;
 }
-.playListButton{
+
+.playListButton {
     -fx-font-weight: bold;
-    -fx-background-color: linear-gradient(to right,grey,lightgray);
+    -fx-background-color: linear-gradient(to right, grey, lightgray);
     -fx-background-radius: 22;
     -fx-font-size: 16;
     -fx-alignment: center;
@@ -19,31 +21,35 @@
     -fx-pref-height: 42;
     -fx-pref-width: 182;
 }
-.playListButton:hover{
+
+.playListButton:hover {
     -fx-font-weight: bold;
     -fx-background-color: white;
     -fx-background-radius: 22;
     -fx-font-size: 16;
-    -fx-text-fill: linear-gradient(to right,grey,#76b8b0);
+    -fx-text-fill: linear-gradient(to right, grey, #76b8b0);
 
 
 }
-.playListButton:pressed{
+
+.playListButton:pressed {
     -fx-scale-x: .9;
     -fx-scale-y: .9;
 
 }
-.playListButtonTwo{
+
+.playListButtonTwo {
     -fx-font-weight: bold;
     -fx-background-color: white;
     -fx-background-radius: 22;
     -fx-font-size: 16;
     -fx-alignment: center;
-    -fx-text-fill: linear-gradient(to right,grey,#76b8b0);
+    -fx-text-fill: linear-gradient(to right, grey, #76b8b0);
     -fx-opacity: .85;
     -fx-pref-height: 42;
     -fx-pref-width: 182;
 }
-#configurePlaylistButton{
+
+#configurePlaylistButton {
     -fx-background-color: lightgrey !important;
 }

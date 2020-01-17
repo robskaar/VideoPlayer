@@ -2,11 +2,11 @@
     -fx-accent: #1a6ee4;
     -fx-focus-color: -fx-accent;
     -fx-base: #111;
-    -fx-control-inner-background: derive(-fx-base,50%);
+    -fx-control-inner-background: derive(-fx-base, 50%);
     -fx-control-inner-background-alt: derive(-fx-control-inner-background, 30%);
 }
 
-.label{
+.label {
     -fx-text-fill: lightgray;
 }
 
@@ -18,24 +18,25 @@
 
 
 .button:default {
-    -fx-base: -fx-accent ;
+    -fx-base: -fx-accent;
 }
 
-.menu-item:default{
-    -fx-base: -fx-accent ;
+.menu-item:default {
+    -fx-base: -fx-accent;
 }
 
-.menu-button:default{
+.menu-button:default {
     -fx-background-color: transparent;
     -fx-text-fill: black;
     -fx-basse: transparent;
 }
-.pane{
+
+.pane {
 
     -fx-accent: #1a6ee4 !important;
     -fx-focus-color: -fx-accent;
     -fx-base: #111;
-    -fx-control-inner-background: derive(-fx-base,50%);
+    -fx-control-inner-background: derive(-fx-base, 50%);
     -fx-control-inner-background-alt: derive(-fx-control-inner-background, 30%);
 }
 
@@ -43,13 +44,12 @@
     -fx-accent: #1a6ee4 !important;
     -fx-focus-color: -fx-accent;
     -fx-base: #111;
-    -fx-control-inner-background: derive(-fx-base,50%);
+    -fx-control-inner-background: derive(-fx-base, 50%);
     -fx-control-inner-background-alt: derive(-fx-control-inner-background, 30%);
 }
 
 
-
-.playListButton{
+.playListButton {
     -fx-font-weight: bold;
     -fx-background-color: #585858 !important;
     -fx-background-radius: 22;
@@ -60,32 +60,36 @@
     -fx-pref-height: 42;
     -fx-pref-width: 182;
 }
-.playListButton:hover{
-    -fx-font-weight: bold!important;
+
+.playListButton:hover {
+    -fx-font-weight: bold !important;
     -fx-background-color: white !important;
     -fx-background-radius: 22;
     -fx-font-size: 16;
-    -fx-text-fill: linear-gradient(to right,grey,#76b8b0);
+    -fx-text-fill: linear-gradient(to right, grey, #76b8b0);
 
 
 }
-.playListButton:pressed{
+
+.playListButton:pressed {
     -fx-scale-x: .9;
     -fx-scale-y: .9;
 
 }
-.playListButtonTwo{
+
+.playListButtonTwo {
     -fx-font-weight: bold;
     -fx-background-color: black !important;
     -fx-background-radius: 22;
     -fx-font-size: 16;
     -fx-alignment: center;
-    -fx-text-fill: linear-gradient(to right,grey,#76b8b0);
+    -fx-text-fill: linear-gradient(to right, grey, #76b8b0);
     -fx-opacity: .85;
     -fx-pref-height: 42;
     -fx-pref-width: 182;
 }
-#configurePlaylistButton{
+
+#configurePlaylistButton {
     -fx-background-color: #585858 !important;
 }
 
