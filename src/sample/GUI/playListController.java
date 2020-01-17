@@ -280,11 +280,13 @@ public class playListController extends Main implements Initializable {
     /**
      * This method clears all media to prevent using a lot of memory
      */
-    public void clearAllMedia(){
+    public void clearAllMedia() {
 
-        for (MediaPlayer mediaP : listOfMediaplayers){      // Dispose all previous mediaplayers
+        for (MediaPlayer mediaP : listOfMediaplayers) {      // Dispose all previous mediaplayers
             mediaP.dispose();
         }
+
+    }
 
     private void setInstructionstoAdd() {
         instructions.setText("Click on the Video to add it");
