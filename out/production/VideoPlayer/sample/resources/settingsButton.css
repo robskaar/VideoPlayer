@@ -1,9 +1,9 @@
 .button-settingsButton {
-    -fx-background-image: url('Icons/cog.png');
+    -fx-background-image: url('cog.png');
     -fx-background-size: 80px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-background-color: transparent;
     -fx-cursor: open-hand;
-
+    -fx-mark-color: transparent;
 }

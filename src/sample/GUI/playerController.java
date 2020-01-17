@@ -3,7 +3,6 @@ package sample.GUI;
 import javafx.animation.FadeTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -17,14 +16,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.*;
-import javafx.scene.control.Button;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import sample.Database.DB;
 
-import java.awt.event.ActionEvent;
 import java.io.*;
 import java.net.*;
 import java.util.ResourceBundle;
@@ -396,6 +393,7 @@ public class playerController implements Initializable {
             Stage window = (Stage) playerMainAnchor.getScene().getWindow();
             window.setScene(mainScene);
             window.setFullScreen(true);
+            mainScene.getStylesheets().add(Controller_MainMenu.getStylesheet());
             window.show();
         } catch (IOException e) {
             e.printStackTrace();

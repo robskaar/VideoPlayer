@@ -1,0 +1,44 @@
+
+
+.line{
+        -fx-stroke: linear-gradient(to right,grey,#76b8b0);
+}
+
+.button{
+	-fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+.button-bio{
+    -fx-border-color: linear-gradient(to right,grey,#76b8b0);
+    -fx-background-color: linear-gradient(to right,grey,#76b8b0);
+}
+.button-confirmed{
+    -fx-background-image: url('confirmed.png');
+    -fx-background-size: 30px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent;
+    -fx-cursor: open-hand;
+    -fx-mark-color: transparent;
+}
+.textfield{
+	-fx-background-color: transparent;
+	-fx-border-color: linear-gradient(to right,grey,#76b8b0);
+}
+.textfield-bio{
+    -fx-background-color: white;
+    -fx-border-color: linear-gradient(to right,grey,#76b8b0);
+}
+
+
+.tilepane{
+    -fx-border-color: linear-gradient(to right,grey,#76b8b0);
+}
+.toggle-button{
+
+}
+.toggle-button:selected{
+    -fx-background-color: #76b8b0;
+    -fx-scale-x: .8;
+    -fx-scale-y: .8;
+}

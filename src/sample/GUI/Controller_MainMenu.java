@@ -35,7 +35,8 @@ import java.util.ResourceBundle;
 public class Controller_MainMenu implements Initializable {
 
     private static String path = "";
-    private static String playlistName = "None";
+    private static String playlistName = "";
+    private static String stylesheet = "sample/GUI/resources/basic.css";
 
     @FXML
     private TextField searchField;
@@ -53,6 +54,9 @@ public class Controller_MainMenu implements Initializable {
     private ScrollPane showToViewPlayListVideos;
     @FXML
     private AnchorPane mainMenuPane;
+    @FXML
+    private Controller_ConfigureAccount controller_configureAccount;
+
 
 
     /***
@@ -63,8 +67,9 @@ public class Controller_MainMenu implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         updatePlayListPane(); //updates the list of playlist
-
     }
+
+
 
     /***
      * does the searches for video's, and calls method to add them to pane
@@ -136,7 +141,7 @@ public class Controller_MainMenu implements Initializable {
         return path;
     }
 
-    static void getMoviePath(MediaView mediaView) {
+    private static void getMoviePath(MediaView mediaView) {
         path = mediaView.getId();
     }
 
@@ -241,6 +246,13 @@ public class Controller_MainMenu implements Initializable {
         }
     }
 
+    /***
+     * changes scene to the account config scene
+     */
+    public void goToAccount(){
+        changeScene("configureAccount.fxml");
+    }
+
     /**
      * This method changes the scene
      *
@@ -255,6 +267,7 @@ public class Controller_MainMenu implements Initializable {
             window.setScene(mainScene);
             window.setFullScreen(true);
             window.show();
+            mainScene.getStylesheets().add(stylesheet);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -351,5 +364,41 @@ public class Controller_MainMenu implements Initializable {
         }
     }
 
+    public void playlistConfigure() {
+        setPlaylistName();
+        changeScene("configurePlaylist.fxml");
+    }
+
+    /***
+     * Sets the Theme of the Application to dark, by removing the original stylesheet and adding a new one
+     */
+    public void darkMode() {
+        mainMenuPane.getScene().getStylesheets().remove(stylesheet);
+        stylesheet = "sample/GUI/resources/Darkmode.css";
+        setTheme(stylesheet);
+
+    }
+
+    private void setTheme(String theme) {
+        mainMenuPane.getScene().getStylesheets().add(theme);
+
+    }
+
+    /***
+     * Sets the Application to light mode, incase anybody would ever want to do that, by removing the currently used stylesheet and replace it with the light one
+     */
+    public void lightMode() {
+        mainMenuPane.getScene().getStylesheets().remove(stylesheet);
+        stylesheet = "sample/GUI/resources/basic.css";
+        mainMenuPane.getScene().getStylesheets().add(stylesheet);
+    }
+
+    /***
+     * gets the stylesheet.
+     * @return
+     */
+    public static String getStylesheet() {
+        return stylesheet;
+    }
 }
 
