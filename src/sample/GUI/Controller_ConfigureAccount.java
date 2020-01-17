@@ -79,7 +79,7 @@ public class Controller_ConfigureAccount {
     private TextField userName;
 
     @FXML
-    private TextField password;
+    private PasswordField password;
 
 
     @FXML
@@ -90,7 +90,7 @@ public class Controller_ConfigureAccount {
 
 
     @FXML
-    private TextField newPassword;
+    private PasswordField newPassword;
 
 
     @FXML
