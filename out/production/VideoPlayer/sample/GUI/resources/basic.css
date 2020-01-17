@@ -51,5 +51,5 @@
 }
 
 #configurePlaylistButton {
-    -fx-background-color: lightgrey !important;
+    -fx-background-color: lightgrey;
 }
