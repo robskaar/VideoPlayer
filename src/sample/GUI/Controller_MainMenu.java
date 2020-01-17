@@ -288,7 +288,7 @@ public class Controller_MainMenu implements Initializable {
     /**
      * This method makes user chose a file, that will be moved to chosen folder
      * Also adds the info to the database
-     * @throws IOException
+     * @throws IOException - used in filechoosing
      */
     public void addVideo() throws IOException {
 

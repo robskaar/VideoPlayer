@@ -388,7 +388,7 @@ public class Controller_ConfigureAccount {
 
     /***
      * this is called to from login to update personal movies upon revisiting the main menu
-     * @throws IOException
+     * @throws IOException - used in the files.walk
      */
     public void updateVideosFromPersonalFolder() throws IOException {
 
@@ -410,6 +410,7 @@ public class Controller_ConfigureAccount {
     /**
      * This method makes user chose a picture, that will be moved to chosen folder - src.sample.Profile_Pictures
      * Also adds the info to the database
+     * @throws  IOException - used in the files.walk
      */
     public void setProfileImage() throws IOException {
 
