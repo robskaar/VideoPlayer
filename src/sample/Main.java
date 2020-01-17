@@ -17,8 +17,8 @@ public class Main extends Application {
         primaryStage.setFullScreen(true);
         primaryStage.setScene(new Scene(root, 1920, 1080));
         primaryStage.show();
-        root.getStylesheets().add("sample/resources/playlistbutton.css");
         root.getStylesheets().add("sample/resources/scrollbar.css");
+        root.getStylesheets().add("sample/GUI/resources/basic.css");
     }
 
 

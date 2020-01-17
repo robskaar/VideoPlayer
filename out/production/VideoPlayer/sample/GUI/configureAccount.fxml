@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="accountPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080" prefWidth="1920" styleClass="line" stylesheets="@../resources/configureAccount.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GUI.Controller_ConfigureAccount">
+   <children>
+      <Line endX="1203.0" endY="7.62939453125E-6" layoutX="717.0" layoutY="111.0" startX="-716.2000122070312" startY="7.62939453125E-6" styleClass="line" />
+      <HBox layoutX="1646.0" layoutY="1034.0" prefHeight="32.0" prefWidth="262.0">
+         <children>
+            <Button fx:id="confirmedButton" mnemonicParsing="false" prefHeight="41.0" prefWidth="38.0" styleClass="button-confirmed" visible="false" />
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveChanges" styleClass="button-bio" text="Save changes" textFill="WHITE" />
+            <Button fx:id="logOffButton" mnemonicParsing="false" onAction="#logOut" styleClass="button-bio" text="Log Off" textFill="WHITE">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <HBox layoutX="94.0" layoutY="145.0" prefHeight="546.0" prefWidth="1067.0">
+         <children>
+            <TilePane prefHeight="546.0" prefWidth="367.0">
+               <children>
+                  <ImageView fx:id="profileImage" fitHeight="546.0" fitWidth="433.0" onMouseClicked="#setProfileImage" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </TilePane>
+            <VBox prefHeight="477.0" prefWidth="200.0">
+               <children>
+                  <Text fx:id="userNameField" strokeType="OUTSIDE" strokeWidth="0.0" text="\@">
+                     <font>
+                        <Font size="44.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="50.0" />
+                     </VBox.margin>
+                  </Text>
+                  <TextField fx:id="nameField" promptText="Name" styleClass="textfield-bio" />
+                  <TextField fx:id="dateOfBirth" editable="false" focusTraversable="false" layoutX="10.0" layoutY="10.0" styleClass="textfield-bio">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <TextField fx:id="addressField" promptText="Address" styleClass="textfield-bio">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin></TextField>
+                  <TextField fx:id="zipCodeField" promptText="Zip Code" styleClass="textfield-bio">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin></TextField>
+                  <TextField fx:id="phoneNumberField" promptText="Phone Number" styleClass="textfield-bio">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin></TextField>
+                  <TextField fx:id="emailField" promptText="Email Address" styleClass="textfield-bio">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin></TextField>
+                  <TextField fx:id="defaultFileFolder" editable="false" focusTraversable="false" onMouseClicked="#setDefaultFileFolder" promptText="Personal File Folder" styleClass="textfield-bio">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin></TextField>
+               </children>
+               <HBox.margin>
+                  <Insets left="20.0" top="20.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+      <VBox layoutX="94.0" layoutY="719.0" prefHeight="274.0" prefWidth="434.0">
+         <children>
+            <TextArea fx:id="bioField" prefHeight="317.0" prefWidth="434.0" />
+         </children>
+      </VBox>
+      <MenuButton layoutX="14.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="46.0" prefWidth="61.0" styleClass="button-settingsButton" stylesheets="@../resources/settingsButton.css" AnchorPane.bottomAnchor="1014.0" AnchorPane.leftAnchor="-9.237055564881302E-14" AnchorPane.rightAnchor="1846.4" AnchorPane.topAnchor="14.0">
+        <items>
+          <MenuItem mnemonicParsing="false" onAction="#goToMainMenu" text="Watch videos" />
+          <MenuItem mnemonicParsing="false" text="Configure Console" />
+        </items>
+      </MenuButton>
+      <ImageView fx:id="cornerProfileImage" fitHeight="79.0" fitWidth="80.0" layoutX="1820.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="1072.2928856015205" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+      <AnchorPane fx:id="logInScreen" layoutX="-2.0" layoutY="110.0" prefHeight="970.0" prefWidth="1920.0" style="-fx-background-color: grey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="110.0">
+         <children>
+            <VBox fx:id="registerVBox" alignment="CENTER" layoutX="900.0" layoutY="415.0" prefHeight="299.0" prefWidth="170.0" visible="false" AnchorPane.bottomAnchor="437.0" AnchorPane.leftAnchor="861.2" AnchorPane.rightAnchor="861.2" AnchorPane.topAnchor="437.0">
+               <children>
+                  <Text fx:id="createNewProfileText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" CREATE A NEW ACCOUNT">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="newName" promptText="Name" styleClass="textfield-bio" />
+                  <TextField fx:id="newAddress" promptText="Address" styleClass="textfield-bio" />
+                  <TextField fx:id="newZipCode" promptText="Zip Code" styleClass="textfield-bio" />
+                  <TextField fx:id="newPhoneNumber" promptText="Phone Number" styleClass="textfield-bio" />
+                  <TextField fx:id="newEmailAddress" promptText="Email Address" styleClass="textfield-bio" />
+                  <TextField fx:id="newUserName" promptText="User Name" styleClass="textfield-bio" />
+                  <TextField fx:id="newPassword" prefHeight="27.0" prefWidth="178.0" promptText="Password" styleClass="textfield-bio" />
+                  <DatePicker fx:id="newDateOfBirth" prefHeight="27.0" prefWidth="207.0" promptText="Date of Birth" styleClass="textfield" />
+                  <ButtonBar prefHeight="40.0" prefWidth="243.0">
+                    <buttons>
+                        <ToggleButton fx:id="newGenderMale" mnemonicParsing="false" text="Male" />
+                        <ToggleButton fx:id="newGenderFemale" mnemonicParsing="false" text="Female" />
+                    </buttons>
+                     <VBox.margin>
+                        <Insets right="19.0" top="5.0" />
+                     </VBox.margin>
+                  </ButtonBar>
+                  <ButtonBar prefHeight="32.0" prefWidth="236.0">
+                    <buttons>
+                        <Button fx:id="submitButton" mnemonicParsing="false" onAction="#createUser" prefHeight="32.0" styleClass="button-bio" text="Submit" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="loginToggleButton" mnemonicParsing="false" onAction="#toggleVBox" prefHeight="32.0" prefWidth="254.0" styleClass="button-bio" text="Log In" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                    </buttons>
+                     <VBox.margin>
+                        <Insets right="21.0" top="10.0" />
+                     </VBox.margin>
+                  </ButtonBar>
+               </children>
+            </VBox>
+            <VBox fx:id="logInVBox" alignment="CENTER" layoutX="834.0" layoutY="493.0" prefHeight="106.0" prefWidth="175.0" AnchorPane.bottomAnchor="531.6" AnchorPane.leftAnchor="797.6" AnchorPane.rightAnchor="797.6" AnchorPane.topAnchor="531.6">
+               <children>
+                  <Text fx:id="loginPageLockedText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="ACCOUNT PAGE IS LOCKED, PLEASE LOG IN">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="userName" promptText="Username" styleClass="textfield-bio" />
+                  <TextField fx:id="password" onAction="#logIn" promptText="Password" styleClass="textfield-bio" />
+                  <ButtonBar prefHeight="32.0" prefWidth="280.0">
+                     <buttons>
+                        <Button fx:id="logInButton" mnemonicParsing="false" onAction="#logIn" styleClass="button-bio" text="Log In" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="registerButton" mnemonicParsing="false" onAction="#toggleVBox" styleClass="button-bio" text="Register" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                     </buttons>
+                  </ButtonBar>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

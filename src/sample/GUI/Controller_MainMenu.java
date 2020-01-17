@@ -18,13 +18,17 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import sample.Database.DB;
 import sample.Main;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ResourceBundle;
 
 
@@ -32,6 +36,7 @@ public class Controller_MainMenu implements Initializable {
 
     private static String path = "";
     private static String playlistName = "";
+    private static String stylesheet = "sample/GUI/resources/basic.css";
 
     @FXML
     private TextField searchField;
@@ -49,6 +54,9 @@ public class Controller_MainMenu implements Initializable {
     private ScrollPane showToViewPlayListVideos;
     @FXML
     private AnchorPane mainMenuPane;
+    @FXML
+    private Controller_ConfigureAccount controller_configureAccount;
+
 
 
     /***
@@ -61,6 +69,8 @@ public class Controller_MainMenu implements Initializable {
         updatePlayListPane(); //updates the list of playlist
     }
 
+
+
     /***
      * does the searches for video's, and calls method to add them to pane
      */
@@ -70,9 +80,9 @@ public class Controller_MainMenu implements Initializable {
         String searchString = searchField.getText(); // gets the search input
         String[] wordsInSearchString = searchString.split(" "); // splits search input by blank spaces, and inputs seperate words in array
         for (String word : wordsInSearchString) {
-            DB.selectSQL("SELECT COUNT(fldFilePath) FROM tblVideo WHERE fldTitle LIKE '%" + word + "%'"); // sql to count videos found
+            DB.selectSQL("SELECT COUNT(fldFilePath) FROM tblVideo WHERE fldTitle LIKE '%" + word + "%' OR fldCategory LIKE '%" + word + "%' "); // sql to count videos found
             int amountVideosFound = Integer.parseInt(DB.getData()); //int for videoes found by previous sql query
-            DB.selectSQL("SELECT fldFilePath FROM tblVideo WHERE fldTitle LIKE '%" + word + "%'"); // sql query to select filepath from titles like search word
+            DB.selectSQL("SELECT fldFilePath FROM tblVideo WHERE fldTitle LIKE '%" + word + "%' OR fldCategory LIKE '%" + word + "%'"); // sql query to select filepath from titles like search word
             if (amountVideosFound == 0) { // if no videos found
                 noSearchMatch.setOnMouseClicked(event -> { // adds mouse click events to no Match text
                     searchField.clear(); // clears search field
@@ -126,11 +136,12 @@ public class Controller_MainMenu implements Initializable {
         videoInfoPane.getChildren().add(mediaView); //adds mediaview to pane
         tilePane.getChildren().add(videoInfoPane); //adds video infoPane to tile pane
     }
-    static public String getPath(){
+
+    static public String getPath() {
         return path;
     }
 
-    static void getMoviePath(MediaView mediaView){
+    private static void getMoviePath(MediaView mediaView) {
         path = mediaView.getId();
     }
 
@@ -155,7 +166,7 @@ public class Controller_MainMenu implements Initializable {
         for (int i = 0; i < amountOfPlaylists; i++) { // for each playlist
             String playListName = DB.getData();//get the playlistname
             if (playListName.equalsIgnoreCase("")) { // if playlistname = null, a.k.a no playlist
-               //do not create a button
+                //do not create a button
             } else {
                 Button addPlaylist = new Button(); // create a button
                 addPlaylist.getStyleClass().add("playListButton"); //add css stylesheet
@@ -187,13 +198,18 @@ public class Controller_MainMenu implements Initializable {
         }
     }
 
-    public void setPlaylistName(){
-        playlistName = activePlayList.getText();
+    public void setPlaylistName() {
+
+        if (activePlayList.getText() != "") {
+            playlistName = activePlayList.getText();
+        }
+
     }
 
-    static public String getPlayListName(){
+    static public String getPlayListName() {
         return playlistName;
     }
+
     /***
      * checks if there is need for a new playlist button, and adds if necessary
      */
@@ -230,11 +246,19 @@ public class Controller_MainMenu implements Initializable {
         }
     }
 
+    /***
+     * changes scene to the account config scene
+     */
+    public void goToAccount(){
+        changeScene("configureAccount.fxml");
+    }
+
     /**
      * This method changes the scene
-     * @param path   Input the name of the fxml file you want to change to
+     *
+     * @param path Input the name of the fxml file you want to change to
      */
-    public void changeScene(String path){
+    public void changeScene(String path) {
 
         try {
             Parent mainMenuParent = FXMLLoader.load(getClass().getResource(path));
@@ -243,10 +267,138 @@ public class Controller_MainMenu implements Initializable {
             window.setScene(mainScene);
             window.setFullScreen(true);
             window.show();
+            mainScene.getStylesheets().add(stylesheet);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * This method makes user chose a file, that will be moved to chosen folder
+     * Also adds the info to the database
+     */
+    public void addVideo() throws IOException {
+
+        String fileName;
+        String fileNameForDB;
+        String fileExtension;
+        String fileCategory = "Unknown";
+        String destinationPath;
+        String destinationPathForDB;
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose file(s) to add");
+
+        // This is the target folder, where the file will be moved to
+        String destinationFolder = System.getProperty("user.dir") + "\\src" + "\\sample" + "\\Media";
+
+        // File chooser window will open on desktop
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "\\Desktop"));
+
+        // Only the listed file extensions will be accepted
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Videos", "*mp4"),
+                new FileChooser.ExtensionFilter("Pictures", "*jpg", "*png", "*jpeg")
+        );
+
+        // Open the window to choose file
+        File selectedFile = fileChooser.showOpenDialog(mainMenuPane.getScene().getWindow());
+
+        // If a file has been selected
+        if (selectedFile != null) {
+
+            // Get filename
+            fileName = selectedFile.getName();
+            fileNameForDB = getFileNameWithoutExtension(fileName);
+
+            // Add filename to target folder path
+            destinationPath = destinationFolder + "\\" + fileName;
+            destinationPathForDB = "src/sample/Media/" + fileName;
+
+            // Get file extension. Used to categorize file in database
+            fileExtension = getFileExtension(fileName);
+
+            // Move the file
+            Files.move(selectedFile.toPath(), Paths.get(destinationPath), StandardCopyOption.REPLACE_EXISTING);
+
+            // Set the file category
+            if (fileExtension.equals("mp4")) {
+                fileCategory = "Movie";
+            }
+
+            // Inserts file info to database
+            DB.pendingData = false;
+            DB.insertSQL("INSERT INTO tblVideo VALUES('" + destinationPathForDB + "','" + fileCategory + "', '" + fileNameForDB + "')");
+
+        }
+
+    }
+
+    /**
+     * This method returns the extension of a file
+     *
+     * @param fileName
+     * @return
+     */
+    private static String getFileExtension(String fileName) {
+
+        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
+            return fileName.substring(fileName.lastIndexOf(".") + 1);
+        } else {
+            return "";
+        }
+    }
+
+    /**
+     * This methods returns a filename, without the extension
+     *
+     * @param fileName
+     * @return
+     */
+    private static String getFileNameWithoutExtension(String fileName) {
+
+        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
+            return fileName.substring(0, fileName.lastIndexOf("."));
+        } else {
+            return "";
+        }
+    }
+
+    public void playlistConfigure() {
+        setPlaylistName();
+        changeScene("configurePlaylist.fxml");
+    }
+
+    /***
+     * Sets the Theme of the Application to dark, by removing the original stylesheet and adding a new one
+     */
+    public void darkMode() {
+        mainMenuPane.getScene().getStylesheets().remove(stylesheet);
+        stylesheet = "sample/GUI/resources/Darkmode.css";
+        setTheme(stylesheet);
+
+    }
+
+    private void setTheme(String theme) {
+        mainMenuPane.getScene().getStylesheets().add(theme);
+
+    }
+
+    /***
+     * Sets the Application to light mode, incase anybody would ever want to do that, by removing the currently used stylesheet and replace it with the light one
+     */
+    public void lightMode() {
+        mainMenuPane.getScene().getStylesheets().remove(stylesheet);
+        stylesheet = "sample/GUI/resources/basic.css";
+        mainMenuPane.getScene().getStylesheets().add(stylesheet);
+    }
+
+    /***
+     * gets the stylesheet.
+     * @return
+     */
+    public static String getStylesheet() {
+        return stylesheet;
+    }
 }
 

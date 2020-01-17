@@ -1,0 +1,38 @@
+
+
+
+
+.playListButton{
+    -fx-font-weight: bold;
+    -fx-background-radius: 22;
+    -fx-font-size: 16;
+    -fx-alignment: center;
+    -fx-text-fill: white;
+    -fx-opacity: .85;
+    -fx-pref-height: 42;
+    -fx-pref-width: 182;
+}
+.playListButton:hover{
+    -fx-font-weight: bold;
+    -fx-background-color: white;
+    -fx-background-radius: 22;
+    -fx-font-size: 16;
+    -fx-text-fill: linear-gradient(to right,grey,#76b8b0);
+
+
+}
+.playListButton:pressed{
+    -fx-scale-x: .9;
+    -fx-scale-y: .9;
+
+}
+.playListButtonTwo{
+    -fx-font-weight: bold;
+    -fx-background-radius: 22;
+    -fx-font-size: 16;
+    -fx-alignment: center;
+    -fx-text-fill: linear-gradient(to right,grey,#76b8b0);
+    -fx-opacity: .85;
+    -fx-pref-height: 42;
+    -fx-pref-width: 182;
+}
