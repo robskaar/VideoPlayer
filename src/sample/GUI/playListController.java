@@ -24,9 +24,12 @@ import sample.Main;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class playListController extends Main implements Initializable {
+
+    private ArrayList<MediaPlayer> listOfMediaplayers = new ArrayList<>();
 
     @FXML
     private AnchorPane configureMenu;
@@ -117,6 +120,7 @@ public class playListController extends Main implements Initializable {
      * @param tilePane - tile pane passed to add videos to
      */
     private void addVideosToView(String filepath, TilePane tilePane) {
+
         Button videoInfo = new Button(); // creates button for hover info of video
         videoInfo.setPrefHeight(111);
         videoInfo.setPrefWidth(200);
@@ -124,8 +128,8 @@ public class playListController extends Main implements Initializable {
         videoInfo.setTextFill(new Color(0, 0, 0, 1)); // text colour
         videoInfo.setOpacity(0.6);// blur
         Media media = new Media(new File(filepath).toURI().toString()); // creates the media from video path
-        MediaPlayer video = new MediaPlayer(media); // creates the player from media
-        MediaView mediaView = new MediaView(video); // creates mediaview from mediaPlayer
+        listOfMediaplayers.add(new MediaPlayer(media));
+        MediaView mediaView = new MediaView(listOfMediaplayers.get(listOfMediaplayers.size()-1));
         mediaView.setFitWidth(200);
         mediaView.setFitHeight(200);
         mediaView.setId(filepath);
@@ -166,6 +170,9 @@ public class playListController extends Main implements Initializable {
      * adds videos to the playlistvideopane from a playlist in DB
      */
     public void updateVideoPlayList() {
+
+        clearAllMedia();
+
         showToViewPlayListVideos.toFront();
         System.out.println(currentPlaylist);
         setInstructionstoRemove();
@@ -232,6 +239,9 @@ public class playListController extends Main implements Initializable {
      *Goes to the Menu, is public for the application to use it
      */
     public void goToMainMenu() {
+
+        clearAllMedia();
+
         changeScene("mainMenu.fxml");
     }
 
@@ -266,12 +276,23 @@ public class playListController extends Main implements Initializable {
         setTheme(LIGHT_MODE);
     }
 
+
+    /**
+     * This method clears all media to prevent using a lot of memory
+     */
+    public void clearAllMedia(){
+
+        for (MediaPlayer mediaP : listOfMediaplayers){      // Dispose all previous mediaplayers
+            mediaP.dispose();
+        }
+
     private void setInstructionstoAdd() {
         instructions.setText("Click on the Video to add it");
     }
 
     private void setInstructionstoRemove() {
         instructions.setText("Click on the Video to remove it");
+
     }
 
 
