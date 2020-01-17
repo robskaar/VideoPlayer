@@ -29,6 +29,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
@@ -37,6 +38,7 @@ public class Controller_MainMenu implements Initializable {
     private static String path = "";
     private static String playlistName = "";
     private static String stylesheet = "sample/GUI/resources/basic.css";
+    private ArrayList<MediaPlayer> listOfMediaplayers = new ArrayList<>();
 
     @FXML
     private TextField searchField;
@@ -57,6 +59,8 @@ public class Controller_MainMenu implements Initializable {
     @FXML
     private Controller_ConfigureAccount controller_configureAccount;
 
+    public Controller_MainMenu() {
+    }
 
 
     /***
@@ -104,6 +108,7 @@ public class Controller_MainMenu implements Initializable {
      * @param tilePane - tile pane passed to add videos to
      */
     private void addVideosToView(String filepath, TilePane tilePane) {
+
         Button videoInfo = new Button(); // creates button for hover info of video
         videoInfo.setPrefHeight(111);
         videoInfo.setPrefWidth(200);
@@ -111,8 +116,8 @@ public class Controller_MainMenu implements Initializable {
         videoInfo.setTextFill(new Color(0, 0, 0, 1)); // text colour
         videoInfo.setOpacity(0.6);// blur
         Media media = new Media(new File(filepath).toURI().toString()); // creates the media from video path
-        MediaPlayer video = new MediaPlayer(media); // creates the player from media
-        MediaView mediaView = new MediaView(video); // creates mediaview from mediaPlayer
+        listOfMediaplayers.add(new MediaPlayer(media));
+        MediaView mediaView = new MediaView(listOfMediaplayers.get(listOfMediaplayers.size()-1));
         mediaView.setFitWidth(200);
         mediaView.setFitHeight(200);
         mediaView.setId(filepath);
@@ -125,6 +130,7 @@ public class Controller_MainMenu implements Initializable {
         videoInfo.setOnMouseClicked(event -> {
             getMoviePath(mediaView);            // Gets path of clicked video
             setPlaylistName();
+            clearAllMedia();
             changeScene("player.fxml");    // Changes scene to the player
         });
 
@@ -182,12 +188,17 @@ public class Controller_MainMenu implements Initializable {
             }
         }
         newPlayListButton(); // creates a new playlistbutton if necessary
+
+
     }
 
     /***
      * adds videos to the playlistvideopane from a playlist in DB
      */
     private void showVideosOnPlaylist() {
+
+        clearAllMedia();
+
         clearPane(playListVideoPane); // clear pane to start of fresh
         String currentPlayList = activePlayList.getText(); // gets the playlist name
         DB.selectSQL("SELECT COUNT(fldPlayListName) FROM tblVideoPlayLists WHERE fldPlayListName = '" + currentPlayList + "'"); // sql query to count amount of videos
@@ -258,19 +269,20 @@ public class Controller_MainMenu implements Initializable {
      *
      * @param path Input the name of the fxml file you want to change to
      */
-    public void changeScene(String path) {
+    public void changeScene(String path)  {
 
-        try {
-            Parent mainMenuParent = FXMLLoader.load(getClass().getResource(path));
-            Scene mainScene = new Scene(mainMenuParent);
+        try{
+            Parent playerParent = FXMLLoader.load(getClass().getResource(path));
+            Scene mainScene = new Scene(playerParent);
             Stage window = (Stage) mainMenuPane.getScene().getWindow();
             window.setScene(mainScene);
             window.setFullScreen(true);
             window.show();
             mainScene.getStylesheets().add(stylesheet);
-        } catch (IOException e) {
+        } catch (IOException e){
             e.printStackTrace();
         }
+
     }
 
     /**
@@ -367,6 +379,7 @@ public class Controller_MainMenu implements Initializable {
 
     public void playlistConfigure() {
         setPlaylistName();
+        clearAllMedia();
         changeScene("configurePlaylist.fxml");
     }
 
@@ -400,6 +413,16 @@ public class Controller_MainMenu implements Initializable {
      */
     public static String getStylesheet() {
         return stylesheet;
+    }
+
+    /**
+     * This method clears all media to prevent using a lot of memory
+     */
+    public void clearAllMedia(){
+
+        for (MediaPlayer mediaP : listOfMediaplayers){      // Dispose all previous mediaplayers
+            mediaP.dispose();
+        }
     }
 }
 

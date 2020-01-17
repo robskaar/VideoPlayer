@@ -146,6 +146,7 @@ public class playerController implements Initializable {
     @FXML
     public void handleMainMenuButton() {
 
+        mp.dispose();                        // Dispose the mediaplayer
         changeScene("mainMenu.fxml");
     }
 
@@ -179,8 +180,11 @@ public class playerController implements Initializable {
         playbackSpeedSlider.setValue(1);
         fadeObjects(PLAYBAR_FADE_OPACITY, 0, playBar, 200); // Hide play bar
         showVideoTitle(path);
+        hidePlayBar();
 
         mp.setOnEndOfMedia(() -> {
+
+            mp.dispose();
 
             // Check for more videos, and play if there is more
             checkForMoreVideosInPlaylist();
@@ -218,7 +222,7 @@ public class playerController implements Initializable {
     private void hidePlayBar() {
 
         // Hide playbar when mouse exits area, unless settings is enabled
-        if (mp.getStatus() == MediaPlayer.Status.PLAYING && !settings.isVisible()) {
+        if (mp.getStatus() != MediaPlayer.Status.PAUSED && !settings.isVisible()) {
             fadeObjects(PLAYBAR_FADE_OPACITY, 0, playBar, 200);
         }
     }
@@ -242,26 +246,27 @@ public class playerController implements Initializable {
      * This method observes time when a video is playing
      * Also using time to update timer and video slider
      */
+
     public void timeListener() {
 
         mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
             @Override
             public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
 
-                if ((int) mp.getCurrentTime().toSeconds() < 2) {
+                if (newValue.toSeconds() < 2) {
                     videoProgressSlider.setMax(mp.getTotalDuration().toSeconds());   // Set slider length to video length
                 }
-                if ((int) mp.getCurrentTime().toSeconds() > 3 && titleIsShowing){    // Hide video title after 3 seconds
+                if (newValue.toSeconds() > 3 && titleIsShowing) {    // Hide video title after 3 seconds
                     titleViewer.setText("");
                     titleIsShowing = false;
                 }
                 // Updates video slider to current time stamp
-                videoProgressSlider.setValue(mp.getCurrentTime().toSeconds());
+                videoProgressSlider.setValue(newValue.toSeconds());
 
                 // Prints current and total time of video
                 timeViewer.setText(String.format("%02d:%02.0f / %02d:%02.0f",
-                        (int) mp.getCurrentTime().toMinutes(),
-                        mp.getCurrentTime().toSeconds() % 60,
+                        (int) newValue.toMinutes(),
+                        newValue.toSeconds() % 60,
                         (int) mp.getTotalDuration().toMinutes(),
                         mp.getTotalDuration().toSeconds() % 60));
             }
@@ -269,19 +274,21 @@ public class playerController implements Initializable {
 
     }
 
+
     /**
      * This method listens for the status of the video and updates play/pause icon
      */
+
     public void videoStatusListener() {
 
         mp.statusProperty().addListener(new ChangeListener<MediaPlayer.Status>() {
             @Override
             public void changed(ObservableValue<? extends MediaPlayer.Status> observable, MediaPlayer.Status oldValue, MediaPlayer.Status newValue) {
 
-                if (mp.getStatus() == MediaPlayer.Status.PLAYING) {
+                if (newValue == MediaPlayer.Status.PLAYING) {
                     pauseButton.setVisible(true);
                     playButton.setVisible(false);
-                } else if (mp.getStatus() == MediaPlayer.Status.PAUSED) {
+                } else if (newValue == MediaPlayer.Status.PAUSED) {
                     playButton.setVisible(true);
                     pauseButton.setVisible(false);
                 }
@@ -289,9 +296,11 @@ public class playerController implements Initializable {
         });
     }
 
+
     /**
      * This method listens for changes to
      */
+
     public void volumeSliderListener() {
 
         // Listening for changes to the volume slider
@@ -300,12 +309,12 @@ public class playerController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 
-                mp.setVolume(volumeSlider.getValue() / 100);    // Set volume according to slider
+                mp.setVolume((double) newValue / 100);    // Set volume according to slider
 
-                if (volumeSlider.getValue() == 0) {             // Set mute icon
+                if ((double) newValue == 0) {             // Set mute icon
                     volumePlaying.setVisible(false);
                     volumeMuted.setVisible(true);
-                } else {                                         // Set not mute icon
+                } else {                                         // Set speaker icon
                     volumeMuted.setVisible(false);
                     volumePlaying.setVisible(true);
                 }
@@ -313,9 +322,11 @@ public class playerController implements Initializable {
         });
     }
 
+
     /**
      * This method adjusts video playback speed on change from slider
      */
+
     public void playbackSliderListener() {
 
         playbackSpeedSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -323,11 +334,12 @@ public class playerController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 
-                mp.setRate(playbackSpeedSlider.getValue());
+                mp.setRate((double) newValue);
 
             }
         });
     }
+
 
     /**
      * This method handles keypresses
@@ -355,7 +367,7 @@ public class playerController implements Initializable {
 
         } else if (key == KeyCode.J) {
 
-            mp.seek(Duration.seconds(videoProgressSlider.getValue() - 5));  // Go backwards in video 5 seconds
+            mp.seek(Duration.seconds(videoProgressSlider.getValue() - 3));  // Go backwards in video 3 seconds
 
             // Show and hide playbar unless settings is enabled
             if (!settings.isVisible() && mp.getStatus() == MediaPlayer.Status.PLAYING) {
@@ -364,13 +376,17 @@ public class playerController implements Initializable {
             }
 
         } else if (key == KeyCode.L) {
-            mp.seek(Duration.seconds(videoProgressSlider.getValue() + 5));  // Go forward in video 5 seconds
 
             // Show and hide playbar unless settings is enabled
             if (!settings.isVisible() && mp.getStatus() == MediaPlayer.Status.PLAYING) {
                 fadeObjects(0, PLAYBAR_FADE_OPACITY, playBar, PLAYBAR_FADE_IN);
                 fadeObjects(PLAYBAR_FADE_OPACITY, 0, playBar, PLAYBAR_FADE_OUT);
             }
+
+            if (videoProgressSlider.getValue() + 3 < videoProgressSlider.getMax()) {
+                mp.seek(Duration.seconds(videoProgressSlider.getValue() + 3));  // Go forward in video 3 seconds
+            }
+
 
         } else if (key == KeyCode.M) {
             handleMainMenuButton();   // Go to main menu when pressing "m"
@@ -442,10 +458,11 @@ public class playerController implements Initializable {
     /**
      * This method shows the title of the video on the player
      * @param path -- path to show video tile
+     *
      */
-    public void showVideoTitle(String path){
+    public void showVideoTitle(String path) {
 
-        DB.selectSQL("SELECT fldTitle FROM tblVideo WHERE fldFilePath = '"+path+"'");
+        DB.selectSQL("SELECT fldTitle FROM tblVideo WHERE fldFilePath = '" + path + "'");
 
         videoTitle = DB.getData();
 
