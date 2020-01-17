@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.PasswordField?>
@@ -91,7 +92,12 @@
       <MenuButton layoutX="14.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="46.0" prefWidth="61.0" styleClass="button-settingsButton" stylesheets="@../resources/settingsButton.css" AnchorPane.bottomAnchor="1014.0" AnchorPane.leftAnchor="-9.237055564881302E-14" AnchorPane.rightAnchor="1846.4" AnchorPane.topAnchor="14.0">
         <items>
           <MenuItem mnemonicParsing="false" onAction="#goToMainMenu" text="Watch videos" />
-          <MenuItem mnemonicParsing="false" text="Configure Console" />
+            <Menu mnemonicParsing="false" text="Themes">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#setDarkMode" text="Dark mode" />
+                  <MenuItem mnemonicParsing="false" onAction="#setLightMode" text="Light mode" />
+               </items>
+            </Menu>
         </items>
       </MenuButton>
       <ImageView fx:id="cornerProfileImage" fitHeight="79.0" fitWidth="80.0" layoutX="1820.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="1072.2928856015205" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
@@ -110,7 +116,7 @@
                   <TextField fx:id="newPhoneNumber" promptText="Phone Number" styleClass="textfield-bio" />
                   <TextField fx:id="newEmailAddress" promptText="Email Address" styleClass="textfield-bio" />
                   <TextField fx:id="newUserName" promptText="User Name" styleClass="textfield-bio" />
-                  <PasswordField fx:id="newPassword" promptText="Password" />
+                  <PasswordField fx:id="newPassword" prefHeight="27.0" prefWidth="178.0" promptText="Password" styleClass="textfield-bio" />
                   <DatePicker fx:id="newDateOfBirth" prefHeight="27.0" prefWidth="207.0" promptText="Date of Birth" styleClass="textfield" />
                   <ButtonBar prefHeight="40.0" prefWidth="243.0">
                     <buttons>
@@ -148,7 +154,7 @@
                      </font>
                   </Text>
                   <TextField fx:id="userName" promptText="Username" styleClass="textfield-bio" />
-                  <PasswordField fx:id="password" onAction="#logIn" promptText="Password" />
+                  <PasswordField fx:id="password" onAction="#logIn" promptText="Password" styleClass="textfield-bio" />
                   <ButtonBar prefHeight="32.0" prefWidth="280.0">
                      <buttons>
                         <Button fx:id="logInButton" mnemonicParsing="false" onAction="#logIn" styleClass="button-bio" text="Log In" textFill="WHITE">
