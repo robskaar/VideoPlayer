@@ -29,7 +29,9 @@ public class Controller_ConfigureAccount {
 
     private String userNameEntered;
     private String passwordEntered;
-
+    private final String DARK_MODE = "sample/GUI/resources/Darkmode.css";
+    private final String LIGHT_MODE = "sample/GUI/resources/basic.css";
+    private String stylesheet = Controller_MainMenu.getStylesheet();
 
     static private boolean loggedIn = false;
 
@@ -472,6 +474,21 @@ public class Controller_ConfigureAccount {
             DB.deleteSQL("DELETE FROM tblVideo WHERE fldFilePath ='" + path + "'");
         }
 
+    }
+
+    public void setDarkMode() {
+        setTheme(DARK_MODE);
+    }
+
+    private void setTheme(String theme) {
+        accountPane.getScene().getStylesheets().remove(stylesheet);
+        stylesheet = theme;
+        accountPane.getScene().getStylesheets().add(theme);
+
+    }
+
+    public void setLightMode() {
+        setTheme(LIGHT_MODE);
     }
 }
 
