@@ -343,6 +343,7 @@ public class Controller_ConfigureAccount {
             window.setScene(mainScene);
             window.setFullScreen(true);
             window.show();
+            mainScene.getStylesheets().add(stylesheet);
         } catch (IOException e) {
             e.printStackTrace();
         }
